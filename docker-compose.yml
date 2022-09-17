@@ -1,0 +1,23 @@
+services:
+  proxy:
+    image: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./apps/nginx:/etc/nginx
+      - ./logs/nginx:/var/log/nginx
+      - ./data/nginx/html:/usr/share/nginx/html
+    restart: always
+    depends_on:
+      - grafana
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+      - ./apps/grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./logs/grafana:/var/log/grafana
+    restart: always
